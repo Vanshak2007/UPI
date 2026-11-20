@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<title>UpiShield</title>
+<style>
+:root{--bg:#080c14;--surface:rgba(21,29,44,.72);--solid:#141c2b;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);--tx:#eaf0fa;--mu:#8e9db8;--ok:#34d399;--w:#fbbf24;--bad:#f87171;--ac:#5b9dff;--ac2:#8b6bff;--ac3:#22d3ee;--grad:linear-gradient(135deg,#4f9bff 0%,#7b6cff 55%,#a86bff 100%);--r:16px;
+--i-up:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12'/%3E%3C/svg%3E");
+--i-cam:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z'/%3E%3Ccircle cx='12' cy='13' r='4'/%3E%3C/svg%3E");
+--i-set:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6'/%3E%3C/svg%3E");
+--i-dl:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3'/%3E%3C/svg%3E");
+--i-sh:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/%3E%3Cpath d='M9 12l2 2 4-4'/%3E%3C/svg%3E");
+color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent;scrollbar-color:#2b3850 transparent;scrollbar-width:thin}
+body{margin:0;min-height:100vh;color:var(--tx);font:15px/1.6 "Inter","Segoe UI",Roboto,system-ui,sans-serif;-webkit-font-smoothing:antialiased;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  background:radial-gradient(800px 520px at 90% -8%,rgba(91,157,255,.22),transparent 62%),radial-gradient(700px 500px at -8% 6%,rgba(139,107,255,.2),transparent 60%),radial-gradient(600px 400px at 50% 112%,rgba(34,211,238,.1),transparent 60%),var(--bg);background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(ellipse at 50% 0,#000 20%,transparent 72%);mask-image:radial-gradient(ellipse at 50% 0,#000 20%,transparent 72%)}
+main{max-width:720px;margin:auto;padding:26px 16px 52px}
+::selection{background:rgba(123,108,255,.4)}
+
+/* header */
+header{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--line);position:relative}
+header::after{content:"";position:absolute;left:0;bottom:-1px;width:120px;height:2px;background:var(--grad);border-radius:2px}
+header h1{font-size:26px;margin:0;flex:1;letter-spacing:-.6px;font-weight:800;display:flex;align-items:center;gap:12px;background:linear-gradient(90deg,#fff 30%,#b9ccff 70%,#cdb8ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+header h1::before{content:"";flex:none;width:34px;height:34px;background:var(--grad);-webkit-mask:var(--i-sh) center/contain no-repeat;mask:var(--i-sh) center/contain no-repeat;filter:drop-shadow(0 4px 12px rgba(123,108,255,.6))}
+
+/* intro + footer note */
+header+p.mu{font-size:14px;line-height:1.7;padding:14px 16px;margin:0 0 18px;background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:14px;color:#a6b4cc}
+main>p.mu:last-child{text-align:center;margin:26px 8px 0;font-size:12.5px;line-height:1.7;opacity:.85}
+
+/* buttons */
+button,.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-size:14px;font-weight:600;color:var(--tx);background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));border:1px solid var(--line2);border-radius:12px;padding:11px 18px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.07);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease,background .2s ease,filter .2s ease}
+button::after,.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.22) 50%,transparent 70%);transform:translateX(-120%);transition:transform .7s ease;pointer-events:none}
+@media (hover:hover){
+  button:hover,.btn:hover{transform:translateY(-3px);border-color:rgba(123,160,255,.6);background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.05));box-shadow:0 12px 26px rgba(0,0,0,.4),0 0 0 1px rgba(91,157,255,.25)}
+  button:hover::after,.btn:hover::after{transform:translateX(120%)}
+  .pri:hover{filter:brightness(1.1) saturate(1.1);box-shadow:0 14px 32px rgba(99,102,255,.5)}
+}
+button:active,.btn:active{transform:translateY(0) scale(.98);box-shadow:none}
+button:focus-visible,.btn:focus-visible,input:focus-visible{outline:2px solid var(--ac3);outline-offset:3px}
+.btn:focus-within{outline:2px solid var(--ac3);outline-offset:3px}
+.pri{background:var(--grad);border-color:transparent;color:#fff;font-weight:700;letter-spacing:.2px;text-shadow:0 1px 2px rgba(0,0,0,.25);box-shadow:0 8px 22px rgba(99,102,255,.4),inset 0 1px 0 rgba(255,255,255,.3)}
+@media (hover:hover){.pri:hover{background:var(--grad);border-color:transparent}}
+
+/* icons on buttons */
+.btn.pri::before,#cam::before,#gear::before,#inst::before{content:"";flex:none;width:18px;height:18px;background:currentColor;-webkit-mask:center/contain no-repeat;mask:center/contain no-repeat}
+.btn.pri::before{-webkit-mask-image:var(--i-up);mask-image:var(--i-up)}
+#cam::before{-webkit-mask-image:var(--i-cam);mask-image:var(--i-cam)}
+#gear::before{-webkit-mask-image:var(--i-set);mask-image:var(--i-set)}
+#inst::before{-webkit-mask-image:var(--i-dl);mask-image:var(--i-dl)}
+header button{padding:9px 14px;font-size:13px}
+header button::before{width:16px!important;height:16px!important}
+
+.row{display:flex;gap:12px;flex-wrap:wrap}.row>*{flex:1;min-width:140px}
+/* big action tiles */
+main>.row>.btn,main>.row>button{flex-direction:column;gap:10px;padding:24px 16px;font-size:15.5px;border-radius:16px}
+main>.row>.btn::before,main>.row>button::before{width:30px;height:30px}
+
+/* cards */
+.card{background:var(--surface);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-top:16px;box-shadow:0 12px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.06);animation:rise .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.card>b:first-child{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#a9b8d4}
+.card>b:first-child::before{content:"";width:4px;height:14px;border-radius:2px;background:var(--grad)}
+.mu{color:var(--mu);font-size:13px}
+p.mu{line-height:1.65}
+
+/* verdict */
+.verdict{display:flex;align-items:center;gap:20px;border-color:transparent;overflow:hidden;position:relative;background:linear-gradient(var(--solid),var(--solid)) padding-box,linear-gradient(135deg,var(--c),rgba(255,255,255,.06) 55%) border-box;border:1px solid transparent}
+@supports (background:color-mix(in srgb,red,blue)){.verdict{background:linear-gradient(110deg,color-mix(in srgb,var(--c) 20%,var(--solid)),var(--solid) 70%) padding-box,linear-gradient(135deg,var(--c),rgba(255,255,255,.06) 55%) border-box}}
+.verdict::before{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:var(--c);opacity:.13;filter:blur(40px);pointer-events:none}
+.verdict .n{position:relative;font-size:30px;font-weight:800;color:var(--c);min-width:84px;height:84px;display:grid;place-items:center;border-radius:50%;line-height:1;border:4px solid transparent;background:linear-gradient(var(--solid),var(--solid)) padding-box,conic-gradient(from 200deg,var(--c),rgba(255,255,255,.08) 65%,var(--c)) border-box;text-shadow:0 0 16px var(--c);box-shadow:0 0 28px -4px var(--c)}
+.verdict h2{margin:0 0 3px;font-size:21px;font-weight:750;color:var(--c);letter-spacing:-.4px}
+.ok{--c:var(--ok)}.w{--c:var(--w)}.bad{--c:var(--bad)}
+
+/* evidence */
+.sig{position:relative;margin:10px 0;padding:12px 14px 12px 54px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;box-shadow:inset 3px 0 0 var(--c);animation:rise .5s cubic-bezier(.2,.8,.2,1) both;transition:background .2s ease,transform .2s ease,border-color .2s ease}
+.sig:nth-child(3){animation-delay:.06s}.sig:nth-child(4){animation-delay:.12s}.sig:nth-child(5){animation-delay:.18s}.sig:nth-child(6){animation-delay:.24s}.sig:nth-child(7){animation-delay:.3s}.sig:nth-child(n+8){animation-delay:.36s}
+.sig::before{position:absolute;left:14px;top:12px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:800;color:var(--c);background:rgba(255,255,255,.06);border:1px solid var(--c)}
+@supports (background:color-mix(in srgb,red,blue)){.sig::before{background:color-mix(in srgb,var(--c) 16%,transparent)}}
+.pass::before{content:"\2713"}.warn::before{content:"!"}.fail::before{content:"\2715"}.info::before{content:"i";font-style:italic;font-family:Georgia,serif}
+@media (hover:hover){.sig:hover{background:rgba(255,255,255,.055);transform:translateX(4px);border-color:var(--line2)}}
+.sig b{display:block;font-weight:650;margin-bottom:2px}.sig span{color:var(--mu);font-size:13px;line-height:1.55}
+.pass{--c:var(--ok)}.warn{--c:var(--w)}.fail{--c:var(--bad)}.info{--c:#6b7a96}
+
+dl{display:grid;grid-template-columns:auto 1fr;gap:0 22px;margin:0}
+dt,dd{padding:9px 0;border-top:1px solid var(--line)}
+dt:first-of-type,dt:first-of-type+dd{border-top:0}
+dt{color:var(--mu);font-size:13px}dd{margin:0;word-break:break-all;font-weight:600}
+
+/* toggle switch */
+label{cursor:pointer}
+input[type=checkbox]{-webkit-appearance:none;appearance:none;position:relative;width:40px;height:23px;border-radius:999px;background:#2a3650;border:1px solid var(--line2);vertical-align:-6px;margin:0 10px 0 0;cursor:pointer;transition:background .2s ease,border-color .2s ease}
+input[type=checkbox]::after{content:"";position:absolute;top:2px;left:2px;width:17px;height:17px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.4);transition:transform .2s ease}
+input[type=checkbox]:checked{background:var(--grad);border-color:transparent}
+input[type=checkbox]:checked::after{transform:translateX(17px)}
+canvas#cv{width:100%;height:auto;border-radius:12px;background:#000;display:block;margin-top:14px;border:1px solid var(--line2);box-shadow:0 10px 28px rgba(0,0,0,.5)}
+
+/* dialogs */
+dialog{background:linear-gradient(180deg,#19233a,#121a2a);color:var(--tx);border:1px solid var(--line2);border-radius:20px;width:min(94vw,520px);padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.07)}
+dialog[open]{animation:pop .25s cubic-bezier(.2,.8,.2,1) both}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+dialog::backdrop{background:rgba(4,7,13,.72);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+dialog>b{font-size:18px;font-weight:750;letter-spacing:-.3px}
+video{width:100%;border-radius:14px;background:#000;max-height:60vh;border:1px solid var(--line2);box-shadow:0 10px 30px rgba(0,0,0,.5)}
+input[type=password],input[type=text]{width:100%;padding:13px 15px;border-radius:12px;border:1px solid var(--line2);background:rgba(0,0,0,.28);color:var(--tx);font:inherit;transition:border-color .2s ease,box-shadow .2s ease,background .2s ease}
+input[type=password]:hover,input[type=text]:hover{border-color:rgba(255,255,255,.25)}
+input[type=password]:focus,input[type=text]:focus{border-color:var(--ac);background:rgba(0,0,0,.4);box-shadow:0 0 0 4px rgba(91,157,255,.2);outline:none}
+
+/* loader */
+#busy{display:none;text-align:center;padding:32px}
+#busy i{display:block;width:40px;height:40px;margin:0 auto 14px;border:0;border-radius:50%;background:conic-gradient(from 0deg,transparent 10%,var(--ac3),var(--ac2));-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3px));mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3px));animation:s .9s linear infinite;filter:drop-shadow(0 0 8px rgba(91,157,255,.6))}
+@keyframes s{to{transform:rotate(360deg)}}
+
+/* history */
+.hi{display:flex;justify-content:space-between;gap:10px;padding:12px 10px;border-top:1px solid var(--line);border-radius:10px;transition:background .2s ease,transform .2s ease}
+.hi:first-child{border-top:0}
+@media (hover:hover){.hi:hover{background:rgba(255,255,255,.05);transform:translateX(3px)}}
+
+@media (max-width:480px){
+  main{padding:18px 12px 40px}
+  header h1{font-size:22px}
+  header h1::before{width:28px;height:28px}
+  .verdict{gap:14px}
+  .verdict .n{min-width:68px;height:68px;font-size:25px}
+  main>.row>.btn,main>.row>button{padding:20px 12px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>UpiShield</h1>
+  <button id="inst" hidden>Install app</button>
+  <button id="gear" aria-label="Settings">Settings</button>
+</header>
+<p class="mu" style="margin-top:0">Check a UPI payment screenshot or a photo of one. Nothing is demo data: your image is analysed on this device, and by Claude if you add an API key in Settings.</p>
+
+<div class="row">
+  <label class="btn pri" style="text-align:center">Choose screenshot<input id="file" type="file" accept="image/*" hidden></label>
+  <button id="cam">Scan with camera</button>
+</div>
+
+<div id="busy" class="card"><i></i><span id="bt">Working…</span></div>
+<div id="out"></div>
+<div id="hist" class="card" hidden><b>Recent scans</b><div id="hl"></div></div>
+<p class="mu">A result is evidence, not proof. Only your bank SMS, statement or UPI app can confirm that money arrived.</p>
+</main>
+
+<dialog id="dc">
+  <video id="v" autoplay playsinline muted></video>
+  <div class="row" style="margin-top:12px"><button id="snap" class="pri">Capture and analyse</button><button id="cc">Cancel</button></div>
+  <p class="mu">Fill the frame with the receipt and avoid glare. A photo of a screen is harder to verify than a screenshot.</p>
+</dialog>
+<dialog id="ds">
+  <b>Claude vision analysis</b>
+  <p class="mu">Optional. Paste your Anthropic API key to have Claude read the receipt and look for visual tampering. The key stays in this browser only and is sent only to api.anthropic.com. Without it, the app uses local OCR and pixel forensics.</p>
+  <input id="key" type="password" placeholder="sk-ant-…" autocomplete="off">
+  <div class="row" style="margin-top:12px"><button id="ks" class="pri">Save</button><button id="kc">Remove key</button><button id="kx">Close</button></div>
+</dialog>
+
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const MODEL='claude-sonnet-5-5';
+let stream,deferred,cur;
+
+/* ---------- helpers ---------- */
+const loadImage=f=>new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=()=>no(new Error('This file is not a readable image.'));i.src=f instanceof Blob?URL.createObjectURL(f):f});
+const toCanvas=(img,max)=>{const s=Math.min(1,max/Math.max(img.naturalWidth,img.naturalHeight)),c=document.createElement('canvas');c.width=Math.round(img.naturalWidth*s);c.height=Math.round(img.naturalHeight*s);c.getContext('2d',{willReadFrequently:true}).drawImage(img,0,0,c.width,c.height);return c};
+const busy=t=>{$('#busy').style.display=t?'block':'none';if(t)$('#bt').textContent=t};
+
+/* ---------- metadata ---------- */
+async function sniff(file){
+  const t=new TextDecoder('latin1').decode(new Uint8Array(await file.slice(0,262144).arrayBuffer()));
+  const m=t.match(/Photoshop|Adobe|Canva|PicsArt|Snapseed|GIMP|Lightroom|Pixlr|Paint\.NET|Fotor|PhotoRoom|Remini|FaceApp|Illustrator|Figma|Inkscape|Affinity|Microsoft Office|WPS Office/i);
+  return {editor:m&&m[0],exif:/Exif\0\0/.test(t)};
+}
+
+/* ---------- Error Level Analysis (JPEG re-save at Q90) ---------- */
+async function ela(img){
+  const oc=toCanvas(img,1600),W=oc.width,H=oc.height,a=oc.getContext('2d').getImageData(0,0,W,H).data;
+  const blob=await new Promise(r=>oc.toBlob(r,'image/jpeg',.9)),j=await loadImage(blob);
+  const c2=document.createElement('canvas');c2.width=W;c2.height=H;const x=c2.getContext('2d',{willReadFrequently:true});x.drawImage(j,0,0);
+  const d=x.getImageData(0,0,W,H).data,B=16,bw=Math.ceil(W/B),bh=Math.ceil(H/B),m=new Float32Array(bw*bh),n=new Float32Array(bw*bh);
+  for(let y=0;y<H;y++)for(let u=0;u<W;u++){const i=(y*W+u)*4,k=(y>>4)*bw+(u>>4);m[k]+=Math.abs(a[i]-d[i])+Math.abs(a[i+1]-d[i+1])+Math.abs(a[i+2]-d[i+2]);n[k]++}
+  for(let k=0;k<m.length;k++)m[k]/=n[k];
+  const act=[...m].filter(v=>v>.6).sort((p,q)=>p-q),med=act.length?act[act.length>>1]:0,thr=Math.max(med*3,4);
+  const hot=[];m.forEach((v,k)=>{if(v>thr&&act.length>20)hot.push(k)});
+  const set=new Set(hot);let linked=0;
+  hot.forEach(k=>{if([k-1,k+1,k-bw,k+bw].some(q=>set.has(q)))linked++});
+  return {oc,W,H,m,bw,bh,B,thr,hot:hot.length,frac:act.length?hot.length/act.length:0,clustered:hot.length?linked/hot.length:0,act:act.length};
+}
+function draw(R,heat){
+  const cv=$('#cv'),x=cv.getContext('2d'),{W,H,m,bw,B,thr}=R.el;cv.width=W;cv.height=H;x.drawImage(R.el.oc,0,0);
+  if(heat)m.forEach((v,k)=>{if(v<.6)return;x.fillStyle=`rgba(255,${v>thr?40:170},0,${Math.min(.75,v/(thr*1.6))})`;x.fillRect((k%bw)*B,Math.floor(k/bw)*B,B,B)});
+}
+
+/* ---------- OCR fallback ---------- */
+async function ocr(canvas){
+  if(!window.Tesseract)await new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';s.onload=ok;s.onerror=()=>no(new Error('OCR engine could not load (check your internet connection).'));document.head.appendChild(s)});
+  return (await Tesseract.recognize(canvas,'eng')).data.text;
+}
+function parseText(t){
+  const f=t.replace(/[ \t]+/g,' '),g=(r,i=0)=>(f.match(r)||[])[i]||null;
+  return {app:g(/Google Pay|GPay|PhonePe|Paytm|BHIM|Amazon Pay|CRED|Navi|MobiKwik/i),
+    amount:g(/(?:₹|Rs\.?|INR)\s?([\d,]+(?:\.\d{1,2})?)/i,1),
+    receiver:null,sender:null,
+    upi_ids:[...new Set(f.match(/[\w.\-]{2,}@[a-z]{2,}/gi)||[])],
+    utr:g(/\b\d{12}\b/)||g(/(?:UTR|Transaction ID|Ref(?:erence)?\.? ?(?:No|ID)?)[^\d]{0,15}(\d{8,16})/i,1),
+    status:g(/success(?:ful)?|completed|paid|failed|pending|processing/i),
+    timestamp:g(/\d{1,2}\s?[A-Za-z]{3,9},?\s?\d{4}[^\n]{0,20}/)};
+}
+
+/* ---------- Claude vision ---------- */
+const PROMPT=`You are a forensic examiner of Indian UPI payment screenshots (Google Pay, PhonePe, Paytm, BHIM and others). Examine the image carefully and return ONLY a JSON object, no markdown:
+{"is_payment_receipt":bool,"is_photo_of_screen":bool,
+"fields":{"app":str|null,"amount":str|null,"receiver":str|null,"sender":str|null,"upi_ids":[str],"utr":str|null,"status":str|null,"timestamp":str|null},
+"flags":[{"title":str,"detail":str,"severity":"low"|"medium"|"high"}],
+"summary":str}
+Flags must list only concrete, visible problems: mismatched fonts, sizes or weights; misaligned or oddly spaced digits; blurred or smudged patches around amount, name or UTR; wrong layout or colours for the claimed app; UTR not 12 digits; amount in figures that disagrees with words; impossible dates or times; status-bar clock or battery inconsistent with the payment time; cropped header or footer; signs of an overlay or edit. Do not invent problems. If nothing is wrong, return an empty flags array. Read text exactly as shown.`;
+async function shrink(img){return toCanvas(img,1568).toDataURL('image/jpeg',.9).split(',')[1]}
+async function askClaude(img,key){
+  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:MODEL,max_tokens:1500,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:'image/jpeg',data:await shrink(img)}},{type:'text',text:PROMPT}]}]})});
+  const j=await r.json();if(!r.ok)throw new Error(j.error?.message||('API error '+r.status));
+  const t=j.content.map(p=>p.text||'').join('').replace(/```json|```/g,'').trim();return JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1));
+}
+
+/* ---------- analysis ---------- */
+async function analyze(file){
+  busy('Reading image…');$('#out').innerHTML='';
+  try{
+    const img=await loadImage(file),meta=await sniff(file),S=[];
+    busy('Running pixel forensics…');const el=await ela(img);
+    let ai=null,f={},src='',note='';const key=localStorage.getItem('ush_key');
+    if(key){busy('Claude is reading the receipt…');try{ai=await askClaude(img,key);f=ai.fields||{};src='Claude vision'}catch(e){note='Claude analysis failed: '+e.message+'. Used local OCR instead.'}}
+    if(!ai){busy('Running OCR (the first run downloads the language data)…');try{f=parseText(await ocr(el.oc));src='Tesseract OCR'}catch(e){note+=' '+e.message}}
+    const w=img.naturalWidth,h=img.naturalHeight,ar=Math.max(w,h)/Math.min(w,h);
+
+    if(meta.editor)S.push({s:'fail',p:40,t:'Editing software found in file data',d:`The file contains the signature "${meta.editor}". Genuine screenshots do not normally carry this.`});
+    else S.push({s:'info',p:0,t:meta.exif?'Camera metadata present, no editor signature':'No metadata (normal for screenshots)',d:'Many apps strip metadata when images are shared, so this does not clear the image.'});
+
+    if(w<700)S.push({s:'warn',p:8,t:`Low resolution (${w}×${h})`,d:'Forwarded or compressed images hide the traces that forensics relies on.'});
+    else if(!ai?.is_photo_of_screen&&(ar<1.6||ar>2.6)&&h>w)S.push({s:'warn',p:6,t:`Unusual shape (${w}×${h})`,d:'Phone screenshots are usually about 16:9 to 21:9. This may be cropped.'});
+    else S.push({s:'pass',p:0,t:`Size ${w}×${h}`,d:'Dimensions look like a normal phone capture.'});
+
+    if(el.act<=20)S.push({s:'info',p:0,t:'Error level analysis: too little detail',d:'The image is too flat or small for a reliable pixel test.'});
+    else if(el.hot&&el.frac>.003&&el.frac<.12&&el.clustered>.6)S.push({s:'warn',p:20,t:'Localised compression anomaly',d:`${el.hot} blocks (${(el.frac*100).toFixed(1)}%) re-compress very differently from the rest. Turn on the heatmap and check whether they sit on the amount, name or UTR. Text-heavy areas can also cause this.`});
+    else S.push({s:'pass',p:0,t:'Compression looks uniform',d:'No small cluster of blocks stands out in error level analysis. This is a weak test on PNG screenshots.'});
+
+    const dg=String(f.utr||'').replace(/\D/g,'');
+    if(src){
+      if(dg.length===12)S.push({s:'pass',p:0,t:`UTR has 12 digits (${dg})`,d:'The format matches NPCI. Confirm the same number in your bank SMS.'});
+      else if(dg.length)S.push({s:'fail',p:25,t:`UTR is ${dg.length} digits (${dg})`,d:'UPI reference numbers are 12 digits. OCR can misread, so check the image yourself.'});
+      else if(ai?.is_payment_receipt!==false)S.push({s:'warn',p:15,t:'No UTR found',d:'Real receipts show a transaction or UTR number. It may be cropped out or unreadable.'});
+    }
+    if(ai){
+      if(ai.is_payment_receipt===false)S.push({s:'warn',p:20,t:'Does not look like a payment receipt',d:ai.summary||''});
+      if(ai.is_photo_of_screen)S.push({s:'info',p:0,t:'Photo of a screen',d:'Glare and moiré reduce accuracy. Ask for the original screenshot if you can.'});
+      let ap=0;(ai.flags||[]).forEach(x=>{const p={high:25,medium:12,low:5}[x.severity]||5;ap+=p;S.push({s:x.severity==='low'?'warn':x.severity==='high'?'fail':'warn',p:Math.min(p,50-(ap-p)),t:x.title,d:x.detail})});
+    }
+    const score=Math.min(100,S.reduce((a,x)=>a+x.p,0));
+    cur={file,img,el,f,S,score,src,note,ai};render(cur);save(cur);
+  }catch(e){$('#out').innerHTML=`<div class="card verdict bad"><div><h2>Could not analyse</h2><span class="mu">${esc(e.message)}</span></div></div>`}
+  busy('');
+}
+
+function render(R){
+  const v=R.score<20?['ok','Likely authentic']:R.score<45?['w','Suspicious: verify manually']:['bad','High tampering risk'],f=R.f;
+  const rows=[['App',f.app],['Amount',f.amount],['To',f.receiver],['From',f.sender],['UPI IDs',(f.upi_ids||[]).join(', ')],['UTR',f.utr],['Status',f.status],['Time',f.timestamp]].filter(r=>r[1]);
+  $('#out').innerHTML=`
+  <div class="card verdict ${v[0]}"><div class="n">${R.score}</div><div><h2>${v[1]}</h2><span class="mu">Risk score out of 100. Read by ${esc(R.src||'pixel checks only')}.</span></div></div>
+  ${R.ai?.summary?`<div class="card">${esc(R.ai.summary)}</div>`:''}
+  ${R.note?`<div class="card mu">${esc(R.note)}</div>`:''}
+  <div class="card"><b>Evidence</b>${R.S.map(x=>`<div class="sig ${x.s}"><b>${esc(x.t)}</b><span>${esc(x.d)}</span></div>`).join('')}</div>
+  <div class="card"><b>Read from the image</b>${rows.length?'<dl style="margin-top:8px">'+rows.map(r=>`<dt>${r[0]}</dt><dd>${esc(r[1])}</dd>`).join('')+'</dl>':'<p class="mu">No payment details could be read.</p>'}</div>
+  <div class="card"><label><input type="checkbox" id="heat"> Show error-level heatmap (red areas compress unusually)</label><canvas id="cv"></canvas></div>`;
+  draw(R,false);$('#heat').onchange=e=>draw(R,e.target.checked);
+  $('#out').scrollIntoView({behavior:'smooth'});
+}
+
+/* ---------- history ---------- */
+function save(R){try{const h=JSON.parse(localStorage.getItem('ush_h')||'[]');h.unshift({t:new Date().toLocaleString(),s:R.score,a:R.f.amount||'—',u:R.f.utr||'—'});localStorage.setItem('ush_h',JSON.stringify(h.slice(0,20)))}catch(e){}hist()}
+function hist(){try{const h=JSON.parse(localStorage.getItem('ush_h')||'[]');$('#hist').hidden=!h.length;$('#hl').innerHTML=h.map(x=>`<div class="hi"><span>${esc(x.a)} <span class="mu">${esc(x.u)}</span></span><span class="mu">${x.s}/100 · ${esc(x.t)}</span></div>`).join('')}catch(e){}}
+
+/* ---------- camera ---------- */
+$('#cam').onclick=async()=>{
+  if(!navigator.mediaDevices?.getUserMedia){alert('Camera needs a secure (https) page. Open the hosted app, not a local file.');return}
+  try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1920}},audio:false});$('#v').srcObject=stream;$('#dc').showModal()}
+  catch(e){alert('Camera not available: '+e.message+'. Allow camera permission for this site and try again.')}
+};
+const stopCam=()=>{stream&&stream.getTracks().forEach(t=>t.stop());$('#dc').close()};
+$('#cc').onclick=stopCam;$('#dc').onclose=()=>stream&&stream.getTracks().forEach(t=>t.stop());
+$('#snap').onclick=()=>{const v=$('#v'),c=document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0);stopCam();c.toBlob(b=>analyze(new File([b],'camera-scan.jpg',{type:'image/jpeg'})),'image/jpeg',.95)};
+
+/* ---------- misc ---------- */
+$('#file').onchange=e=>{const f=e.target.files[0];if(f)analyze(f);e.target.value=''};
+$('#gear').onclick=()=>{$('#key').value=localStorage.getItem('ush_key')||'';$('#ds').showModal()};
+$('#ks').onclick=()=>{const k=$('#key').value.trim();k?localStorage.setItem('ush_key',k):localStorage.removeItem('ush_key');$('#ds').close()};
+$('#kc').onclick=()=>{localStorage.removeItem('ush_key');$('#key').value=''};
+$('#kx').onclick=()=>$('#ds').close();
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;$('#inst').hidden=false});
+$('#inst').onclick=async()=>{if(deferred){deferred.prompt();await deferred.userChoice;deferred=null;$('#inst').hidden=true}};
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js');
+hist();
+</script>
+</body>
+</html>
